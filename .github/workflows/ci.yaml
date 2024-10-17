@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - milestone-4
-    paths:
-      - "../../server.js"
+    # paths:
+    #   - "../../server.js"
   # workflow_dispatch:
 
 jobs:
