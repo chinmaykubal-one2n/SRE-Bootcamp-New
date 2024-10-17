@@ -1,0 +1,31 @@
+{
+  "name": "sre-bootcamp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint 'server.js'",
+    "test": "mocha ./test/test.js",
+    "start": "node server.js",
+    "migrate": "node migrate.js"
+  },
+  "keywords": [],
+  "author": "chinmay kubal",
+  "license": "ISC",
+  "description": "SRE bootcamp exercises (https://playbook.one2n.in/sre-bootcamp/sre-bootcamp-exercises)",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.10.0",
+    "chai": "^5.1.1",
+    "eslint": "^9.10.0",
+    "globals": "^15.9.0",
+    "mocha": "^10.4.0",
+    "supertest": "^7.0.0"
+  }
+}
