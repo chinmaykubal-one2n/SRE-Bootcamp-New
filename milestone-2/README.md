@@ -31,7 +31,7 @@ make docker-postgres
 ###  Run the Application Container
 ```bash
 make docker-run
-
+```
 
 ###  Start the Postman
 Start postman and import the student-api.postman_collection.json and start reaching the respective endpoints
