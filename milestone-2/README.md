@@ -13,6 +13,7 @@ Make sure you have the following installed on your system:
 
 - [Docker](https://docs.docker.com/desktop/install/linux/)
 - [Make](https://www.gnu.org/software/make/#download)
+- [Postman](https://www.postman.com/downloads/)
 
 
 ### Follow these steps to set up the Student API:
