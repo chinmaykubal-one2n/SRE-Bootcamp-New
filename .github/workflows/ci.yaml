@@ -20,15 +20,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "18"
+          working-directory: milestone-4
 
       - name: Install dependencies
         run: make install
+        working-directory: milestone-4
 
       - name: Run tests
         run: make test
+        working-directory: milestone-4
 
       - name: Perform code linting
         run: make lint
+        working-directory: milestone-4
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -42,5 +46,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          context: milestone-4
           push: true
           tags: chinmayk12/student-api:1.0.0
