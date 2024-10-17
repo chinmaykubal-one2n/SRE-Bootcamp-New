@@ -6,7 +6,7 @@ on:
       - milestone-4
     paths:
       - "../../server.js"
-  workflow_dispatch:
+  # workflow_dispatch:
 
 jobs:
   build:
