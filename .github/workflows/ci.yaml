@@ -5,7 +5,7 @@ on:
     branches:
       - milestone-4
     paths:
-      - "./milestone-4/**"
+      - ${{ github.workspace }}/milestone-4
   # workflow_dispatch:
 
 jobs:
