@@ -7,7 +7,8 @@
     "lint": "eslint 'server.js'",
     "test": "mocha ./test/test.js",
     "start": "node server.js",
-    "migrate": "node migrate.js"
+    "migrate": "node-pg-migrate up",
+    "migrate:down": "node-pg-migrate down"
   },
   "keywords": [],
   "author": "chinmay kubal",
@@ -18,6 +19,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "morgan": "^1.10.0",
+    "node-pg-migrate": "^7.7.1",
     "pg": "^8.12.0"
   },
   "devDependencies": {
