@@ -1,0 +1,15 @@
+# Vagrantfile
+Vagrant.configure("2") do |config|
+    # Specify the base image you want to use
+    config.vm.box = "ubuntu/focal64" # Ubuntu 20.04 LTS
+  
+    # Forward port 8080 from the guest to the host
+    config.vm.network "forwarded_port", guest: 8080, host: 8080
+  
+    # Provision the VM using the provision.sh script
+    config.vm.provision "shell", path: "provision.sh"
+  
+    # Optional: sync the current directory to /vagrant in the VM
+    config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+  end
+  
