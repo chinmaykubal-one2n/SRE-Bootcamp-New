@@ -1,0 +1,41 @@
+services:
+  postgres-container:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres-data:${PGDATA}
+
+  students-api-1:
+    image: chinmayk12/student-api:1.0.0
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+    depends_on:
+      - postgres-container
+
+  students-api-2:
+    image: chinmayk12/student-api:1.0.0
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+    depends_on:
+      - postgres-container
+
+  nginx:
+    image: nginx:1.27
+    ports:
+      - "8080:80"  
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - students-api-1
+      - students-api-2
+
+volumes:
+  postgres-data:
+
