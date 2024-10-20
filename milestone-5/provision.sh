@@ -1,11 +1,9 @@
 #!/bin/bash
 
-# Update package lists
-sudo apt-get update
-
 # Install make  
 install_make() {
   echo "Installing make dependency..."
+  sudo apt-get update
   sudo apt install make -y  
 }
 
@@ -24,19 +22,21 @@ install_docker() {
   sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
   sudo service docker start
   sudo usermod -aG docker ${USER}
-  sudo systemctl start docker
-  sudo systemctl enable docker
 
+}
+# Run Application
+run_application() {
+  echo "Running the application..."
+  cd /vagrant/application
+  make docker-compose-up-students-api 
 }
 
 # Main execution
 main() {
   install_make
   install_docker
-
+  run_application
 }
 
 main
 
-cd /vagrant/application
-make docker-compose-up-students-api 
