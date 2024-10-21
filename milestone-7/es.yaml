@@ -2,10 +2,11 @@ apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
   name: external-secret-postgres
+  namespace: student-api
 spec:
   refreshInterval: "15s"
   secretStoreRef:
-    name: vault-backend
+    name: vault-backend-secret-store
     kind: SecretStore
   target:
     name: kube-secret-postgres-db
@@ -34,4 +35,5 @@ spec:
     remoteRef:
         key: postgres-secrets
         property: PGDATA
+
 

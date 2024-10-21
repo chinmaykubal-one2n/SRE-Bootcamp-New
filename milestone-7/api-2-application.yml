@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: students-api-deployment
+  namespace: student-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: students-api
+  template:
+    metadata:
+      labels:
+        app: students-api
+    spec:
+      # nodeSelector:
+      #   type: application
+      initContainers:
+      - name: db-migrations
+        image: chinmayk12/student-api:1.0.0
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: kube-secret-postgres-db
+              key: DATABASE_URL
+        - name: POSTGRES_HOST
+          valueFrom:
+            secretKeyRef:
+              name: kube-secret-postgres-db
+              key: POSTGRES_HOST
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: kube-secret-postgres-db
+              key: POSTGRES_USER
+        command: ["npm", "run", "migrate"]
+      containers:
+      - name: students-api
+        image: chinmayk12/student-api:1.0.0
+        command: ["npm", "start"]
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: kube-secret-postgres-db
+              key: DATABASE_URL
+        - name: POSTGRES_HOST
+          valueFrom:
+            secretKeyRef:
+              name: kube-secret-postgres-db
+              key: POSTGRES_HOST
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: kube-secret-postgres-db
+              key: POSTGRES_USER
+        ports:
+        - containerPort: 3000
+        resources: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: students-api-service
+  namespace: student-api
+spec:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  selector:
+    app: students-api
+
