@@ -1,0 +1,112 @@
+vaultToken:
+  namespace: student-api
+  token: "aHZzLm9RdzFtQVQ1eEpQZlNTa0JoUlNzRTJ1aQ=="
+
+secretStore:
+  name: vault-backend-secret-store
+  namespace: student-api
+  vault:
+    server: "http://vault.vault-ns.svc.cluster.local:8200"
+    path: "secret"
+    version: "v2"
+    tokenSecretRef:
+      name: "vault-token"
+      key: "token"
+
+
+externalSecret:
+  name: external-secret-postgres
+  namespace: student-api
+  refreshInterval: "15s"
+  secretStoreRef:
+    name: vault-backend-secret-store
+    kind: SecretStore
+  target:
+    name: kube-secret-postgres-db
+  data:
+    - secretKey: DATABASE_URL
+      remoteRef:
+        key: postgres-secrets
+        property: DATABASE_URL
+    - secretKey: POSTGRES_USER
+      remoteRef:
+        key: postgres-secrets
+        property: POSTGRES_USER
+    - secretKey: POSTGRES_HOST
+      remoteRef:
+        key: postgres-secrets
+        property: POSTGRES_HOST
+    - secretKey: POSTGRES_PASSWORD
+      remoteRef:
+        key: postgres-secrets
+        property: POSTGRES_PASSWORD
+    - secretKey: POSTGRES_DB
+      remoteRef:
+        key: postgres-secrets
+        property: POSTGRES_DB
+    - secretKey: PGDATA
+      remoteRef:
+        key: postgres-secrets
+        property: PGDATA
+
+postgres:
+  namespace: student-api
+  pv:
+    name: postgres-pv
+    storageClassName: manual
+    capacity:
+      storage: 1Gi
+    accessModes: ReadWriteOnce
+    hostPath: "/mnt/data"
+  pvc:
+    name: postgres-pvc
+    storageClassName: manual
+    accessModes: ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+  deployment:
+    name: postgres-deployment
+    replicas: 1
+    appLabel: postgres
+    nodeSelector: database
+    container:
+      name: postgres-container
+      image: postgres:16
+      port: 5432
+  secrets:
+    name: kube-secret-postgres-db
+  service:
+    name: postgres-service
+    port: 5432
+    targetPort: 5432
+
+
+studentsApi:
+  namespace: student-api
+  deployment:
+    name: students-api-deployment
+    replicas: 1
+    appLabel: students-api
+    nodeSelector: application
+    initContainer:
+      name: db-migrations
+      image: chinmayk12/student-api:1.0.0
+      command: ["npm", "run", "migrate"]
+    container:
+      name: students-api
+      image: chinmayk12/student-api:1.0.0
+      command: ["npm", "start"]
+      port: 3000
+  secrets:
+    name: kube-secret-postgres-db
+  service:
+    name: students-api-service
+    port: 3000
+    targetPort: 3000
+
+
+namespaces:
+  # vault: vault-ns
+  studentApi: student-api
+  # externalSecrets: external-secrets
