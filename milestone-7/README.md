@@ -1,48 +1,110 @@
+## Milestone:- 7 - Deploy REST API & its dependent services in K8s
+## Prerequisites
+
+
+Make sure you have the following installed on your system:
+
+- [Docker](https://www.docker.com/products/docker-desktop/)
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fdebian+package)
+- [Kubectl](https://kubernetes.io/docs/tasks/tools/)
+- [Helm](https://helm.sh/docs/intro/install/)
+
+
+
+### Follow these steps to set up the Student API:
+
+### Step 1: Start Minikube with 4 Nodes
+To start Minikube with Docker as the driver and 4 nodes, run the following command:
+
+```bash
 minikube start --driver=docker --nodes 4
+```
+
+### Step 2: Label the Nodes
+Label the nodes for the application, database, and dependent services:
+```bash
 kubectl label nodes minikube-m02 type=application
 kubectl label nodes minikube-m03 type=database
 kubectl label nodes minikube-m04 type=dependent_services
+```
 
-
-
-# helm repo update
+### Step 3: Create Namespaces
+Create namespaces for Vault and External Secrets:
+```bash
 kubectl create namespace vault-ns
-kubectl create namespace student-api
 kubectl create namespace external-secrets
+```
 
-# helm repo add hashicorp https://helm.releases.hashicorp.com
-helm install vault hashicorp/vault --values helm-vault-raft-values.yml --namespace vault-ns
+### Step 4: Install Vault using Helm
+Update Helm repositories and install Vault with Raft storage configuration:
+```bash
+helm repo update
 
+helm repo add hashicorp https://helm.releases.hashicorp.com
 
-# helm repo add external-secrets https://charts.external-secrets.io
+helm install vault hashicorp/vault \
+  --values helm-vault-raft-values.yml \
+  --namespace vault-ns
+```
+
+### Step 5: Install External Secrets using Helm
+Add the External Secrets Helm repository and install it:
+```bash
+helm repo add external-secrets https://charts.external-secrets.io
+
 helm install external-secrets external-secrets/external-secrets \
   --namespace external-secrets \
   --values external-secrets-operator.yaml
-  
-
+```
+### Step 6: Port Forward Vault for UI Access
+Forward port 8200 to access Vault:
+```bash
 kubectl port-forward vault-0 8200:8200 -n vault-ns
+```
 
-
-kubectl exec  -n vault-ns vault-0 -- vault operator init -key-shares=1 -key-threshold=1 -format=json > cluster-keys.json
+### Step 7: Initialize and Unseal Vault
+Initialize Vault with 1 key share and threshold, and store the cluster keys:
+```bash
+kubectl exec -n vault-ns vault-0 -- vault operator init -key-shares=1 -key-threshold=1 -format=json > cluster-keys.json
 
 cat cluster-keys.json | jq -r ".unseal_keys_b64[]"
-
+```
+Unseal Vault:
+```bash
 VAULT_UNSEAL_KEY=$(cat cluster-keys.json | jq -r ".unseal_keys_b64[]")
 
-kubectl exec  -n vault-ns vault-0 -- vault operator unseal $VAULT_UNSEAL_KEY
-
+kubectl exec -n vault-ns vault-0 -- vault operator unseal $VAULT_UNSEAL_KEY
+```
+Get the root token:
+```bash
 cat cluster-keys.json | jq -r ".root_token"
+```
 
-kubectl exec  -n vault-ns --stdin=true --tty=true vault-0 -- /bin/sh
+### Step 8: Log into Vault and Enable Secrets
+Log into Vault using the root token:
+```bash
+kubectl exec -n vault-ns --stdin=true --tty=true vault-0 -- /bin/sh
 
-vault login 
-# (use the passcode from the command:- cat cluster-keys.json | jq -r ".root_token" )
+vault login
+```
+(Use the passcode obtained from the command:)
+```bash
+cat cluster-keys.json | jq -r ".root_token"
+```
 
+Enable KV version 2 secrets engine:
+```bash
 vault secrets enable -path=secret kv-v2
+```
 
+Enable Kubernetes auth:
+```bash
 vault auth enable kubernetes
+```
 
-
+### Step 9: Add Secrets
+Store Postgres secrets in Vault:
+```bash
 vault kv put secret/postgres-secrets \
     DATABASE_URL='postgres://postgres:postgres@postgres-service.student-api.svc.cluster.local:5432/postgres' \
     POSTGRES_USER='postgres' \
@@ -50,27 +112,38 @@ vault kv put secret/postgres-secrets \
     POSTGRES_PASSWORD='postgres' \
     POSTGRES_DB='postgres' \
     PGDATA='/var/lib/postgresql/data'
+```
 
+To get out of the pod
+```bash
 exit
+```
 
 
+### Step 10: Run the below commands to install Student API 
+For the file 1.ss-vault-token-secret.yaml, modify the token before installing the file
+```bash
 kubectl apply -f 1.ss-vault-token-secret.yaml (modify this first)
-kubectl get secrets -n student-api
 
 kubectl apply -f 2.ss.yaml
-kubectl get secretstore.external-secrets -n student-api
 
 kubectl apply -f es.yaml
-kubectl get externalsecret.external-secrets.io -n student-api
 
 kubectl apply -f api-1-database.yml
-# wait
+
 kubectl apply -f api-2-application.yml
+```
 
+### Step 11: Access the Student API
+Port forward the Student API service to make it accessible:
+```bash
 kubectl port-forward --address 0.0.0.0 service/students-api-service 3000:3000 -n student-api
+```
 
+### Step 12: Start the Postman
+Start the postman and import the student-api.postman_collection.json and start reaching the respective endpoints
 
-kubectl port-forward --address 0.0.0.0 service/students-api-service 3000:3000 -n student-api
-
-
-<!-- https://chatgpt.com/share/67173d7a-d218-8012-ab08-d81feaa678fc -->
+### Step 13: To remove everything 
+```bash
+minikube delete
+```
