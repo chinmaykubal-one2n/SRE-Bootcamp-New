@@ -70,10 +70,7 @@ kubectl apply -f api-2-application.yml
 kubectl port-forward --address 0.0.0.0 service/students-api-service 3000:3000 -n student-api
 
 
-# run 1.ss
-# run 2.ss
-# run 3.es
-# run api-1
-# run api-2
-
 kubectl port-forward --address 0.0.0.0 service/students-api-service 3000:3000 -n student-api
+
+
+<!-- https://chatgpt.com/share/67173d7a-d218-8012-ab08-d81feaa678fc -->
