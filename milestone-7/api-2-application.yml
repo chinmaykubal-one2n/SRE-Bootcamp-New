@@ -13,8 +13,8 @@ spec:
       labels:
         app: students-api
     spec:
-      # nodeSelector:
-      #   type: application
+      nodeSelector:
+        type: application
       initContainers:
       - name: db-migrations
         image: chinmayk12/student-api:1.0.0
