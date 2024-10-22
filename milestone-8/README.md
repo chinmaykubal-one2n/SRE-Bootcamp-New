@@ -129,3 +129,8 @@ kubectl port-forward --address 0.0.0.0 service/students-api-service 3000:3000 -n
 
 ### Step 12: Start the Postman
 Start the postman and import the student-api.postman_collection.json and start reaching the respective endpoints
+
+### Step 13: To remove everything 
+```bash
+minikube delete
+```
