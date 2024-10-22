@@ -1,5 +1,17 @@
+## Milestone:- 8 - Deploy REST API & its dependent services using Helm Charts
+## Prerequisites
 
-# Minikube Vault and External Secrets Setup
+
+Make sure you have the following installed on your system:
+
+- [Docker](https://www.docker.com/products/docker-desktop/)
+- [Minikube](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fdebian+package)
+- [Kubectl](https://kubernetes.io/docs/tasks/tools/)
+- [Helm](https://helm.sh/docs/intro/install/)
+
+
+
+### Follow these steps to set up the Student API:
 
 ### Step 1: Start Minikube with 4 Nodes
 To start Minikube with Docker as the driver and 4 nodes, run the following command:
