@@ -126,3 +126,6 @@ Port forward the Student API service to make it accessible:
 ```bash
 kubectl port-forward --address 0.0.0.0 service/students-api-service 3000:3000 -n student-api
 ```
+
+### Step 12: Start the Postman
+Start the postman and import the student-api.postman_collection.json and start reaching the respective endpoints
