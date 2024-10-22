@@ -8,6 +8,7 @@ Make sure you have the following installed on your system:
 - [Minikube](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fdebian+package)
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [Helm](https://helm.sh/docs/intro/install/)
+- [Postman](https://www.postman.com/downloads/)
 
 
 
