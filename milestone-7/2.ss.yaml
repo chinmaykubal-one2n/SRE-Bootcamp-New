@@ -1,0 +1,26 @@
+apiVersion: external-secrets.io/v1beta1
+kind: SecretStore
+metadata:
+  name: vault-backend-secret-store
+  namespace: student-api
+spec:
+  provider:
+    vault:
+      server: "http://vault.vault-ns.svc.cluster.local:8200"
+      path: "secret"
+      version: "v2"
+      auth:
+        # points to a secret that contains a vault token
+        # https://www.vaultproject.io/docs/auth/token
+        tokenSecretRef:
+          name: "vault-token"
+          key: "token"
+          # namespace: default
+---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: vault-token
+#   namespace: default
+# data:
+#   token: aHZzLnZ4MENhbThiYUNHT1A4Y0YzZXRNb2thVA== 
