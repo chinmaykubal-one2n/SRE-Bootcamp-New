@@ -15,46 +15,48 @@ spec:
         app: {{ .Values.studentsApi.deployment.appLabel }}
     spec:
       nodeSelector:
-        type: {{ .Values.studentsApi.deployment.nodeSelector | quote }}
+        type: {{ .Values.studentsApi.deployment.nodeSelector }}
       initContainers:
       - name: {{ .Values.studentsApi.deployment.initContainer.name }}
-        image: {{ .Values.studentsApi.deployment.initContainer.image | quote }}
+        image: {{ .Values.studentsApi.deployment.initContainer.image  }}
         env:
         - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.studentsApi.secrets.name | quote }}
+              name: {{ .Values.studentsApi.secrets.name  }}
               key: DATABASE_URL
         - name: POSTGRES_HOST
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.studentsApi.secrets.name | quote }}
+              name: {{ .Values.studentsApi.secrets.name  }}
               key: POSTGRES_HOST
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.studentsApi.secrets.name | quote }}
+              name: {{ .Values.studentsApi.secrets.name  }}
               key: POSTGRES_USER
-        command: {{ .Values.studentsApi.deployment.initContainer.command }}
+        # command: {{ .Values.studentsApi.deployment.initContainer.command }}
+        command: {{ toYaml .Values.studentsApi.deployment.initContainer.command | nindent 8 }}
       containers:
       - name: {{ .Values.studentsApi.deployment.container.name }}
-        image: {{ .Values.studentsApi.deployment.container.image | quote }}
-        command: {{ .Values.studentsApi.deployment.container.command }}
+        image: {{ .Values.studentsApi.deployment.container.image  }}
+        # command: {{ .Values.studentsApi.deployment.container.command }}
+        command: {{ toYaml .Values.studentsApi.deployment.container.command | nindent 8 }}
         env:
         - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.studentsApi.secrets.name | quote }}
+              name: {{ .Values.studentsApi.secrets.name  }}
               key: DATABASE_URL
         - name: POSTGRES_HOST
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.studentsApi.secrets.name | quote }}
+              name: {{ .Values.studentsApi.secrets.name  }}
               key: POSTGRES_HOST
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.studentsApi.secrets.name | quote }}
+              name: {{ .Values.studentsApi.secrets.name  }}
               key: POSTGRES_USER
         ports:
         - containerPort: {{ .Values.studentsApi.deployment.container.port }}
