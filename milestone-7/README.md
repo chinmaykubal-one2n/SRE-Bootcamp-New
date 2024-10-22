@@ -123,11 +123,11 @@ exit
 ### Step 10: Run the below commands to install Student API 
 For the file 1.ss-vault-token-secret.yaml, modify the token before installing the file
 ```bash
-kubectl apply -f 1.ss-vault-token-secret.yaml (modify this first)
+kubectl apply -f vault-token-secret.yaml (modify this first)
 
-kubectl apply -f 2.ss.yaml
+kubectl apply -f secretstore.yaml
 
-kubectl apply -f es.yaml
+kubectl apply -f externalsecret.yaml
 
 kubectl apply -f api-1-database.yml
 
