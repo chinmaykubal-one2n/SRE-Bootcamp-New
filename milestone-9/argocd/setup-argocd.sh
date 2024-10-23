@@ -14,4 +14,5 @@ for statefulset in $(kubectl get statefulsets -n argocd -o jsonpath='{.items[*].
 done
 
 
+# manull apply
 # kubectl get secret argocd-initial-admin-secret -n argocd -o yaml | grep -i 'password' | awk {'print $2'} | base64 -d
