@@ -91,5 +91,7 @@ redisInit:
 
 # helm repo add argo https://argoproj.github.io/argo-helm
 # helm install argocd argo/argo-cd --namespace argocd --create-namespace -f argocd/argocd-values.yaml
+# get the passcode from the below code and the user is admin
 # kubectl get secret argocd-initial-admin-secret -n argocd -o yaml | grep -i 'password' | awk {'print $2'} | base64 -d
-# kubectl apply -f argocd-application.yaml
+# kubectl port-forward svc/argocd-server -n argocd 8080:443 
+# kubectl apply -f argocd/argocd-application.yaml
