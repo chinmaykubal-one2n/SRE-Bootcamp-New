@@ -6,7 +6,13 @@ on:
       - milestone-4
     paths:
       - milestone-4/**
+      - milestone-9/**
   workflow_dispatch:
+
+env:
+  IMAGE_VERSION: 2.2.0
+  MILESTONE_4_DIR: milestone-4
+  MILESTONE_9_DIR: milestone-9
 
 jobs:
   build:
@@ -20,19 +26,19 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "18"
-          working-directory: milestone-4
+          working-directory: ${{ env.MILESTONE_4_DIR }}
 
       - name: Install dependencies
         run: make install
-        working-directory: milestone-4
+        working-directory: ${{ env.MILESTONE_4_DIR }}
 
       - name: Run tests
         run: make test
-        working-directory: milestone-4
+        working-directory: ${{ env.MILESTONE_4_DIR }}
 
       - name: Perform code linting
         run: make lint
-        working-directory: milestone-4
+        working-directory: ${{ env.MILESTONE_4_DIR }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -46,6 +52,20 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: milestone-4
+          context: ${{ env.MILESTONE_4_DIR }}
           push: true
-          tags: chinmayk12/student-api:1.0.0
+          tags: chinmayk12/student-api:${{ env.IMAGE_VERSION }}
+
+      - name: Update image tag in values.yaml
+        run: |
+          sed -i 's/image: chinmayk12\/student-api:[^ ]*/image: chinmayk12\/student-api:${{ env.IMAGE_VERSION }}/g' helm-chart/values.yaml
+        working-directory: ${{ env.MILESTONE_9_DIR }}
+
+      - name: Commit and push updated values.yaml
+        run: |
+          git config --local user.email "chinmay.kubal@one2n.in"
+          git config --local user.name "chinmaykubal-one2n"
+          git add helm-chart/values.yaml
+          git commit -m "Updated image tag to chinmayk12/student-api:${{ env.IMAGE_VERSION }}"
+          git push
+        # working-directory: ${{ env.MILESTONE_9_DIR }}

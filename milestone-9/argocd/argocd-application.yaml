@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-student-api-app
+  namespace: argocd
+spec:
+  source:
+    repoURL: 'https://github.com/chinmaykubal-one2n/SRE-Bootcamp-New'
+    # need to change the repoURL after the merge
+    targetRevision: milestone-9
+    path: milestone-9/helm-chart
+    helm:
+      valueFiles:
+      - values.yaml
+  project: default
+  destination:
+    server: 'https://kubernetes.default.svc'
+    # namespace: argocd
+  syncPolicy:
+    # syncOptions:
+    # - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+
+
+# manuall apply
+
+
+
