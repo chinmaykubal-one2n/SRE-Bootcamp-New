@@ -5,10 +5,10 @@ metadata:
   namespace: argocd
 spec:
   source:
-    repoURL: 'https://github.com/chinmaykubal-one2n/SRE-Bootcamp-New/tree/milestone-9/milestone-9'
+    repoURL: 'https://github.com/chinmaykubal-one2n/SRE-Bootcamp-New'
     # need to change the repoURL after the merge
-    targetRevision: HEAD
-    path: helm-chart
+    targetRevision: milestone-9
+    path: milestone-9/helm-chart
     helm:
       valueFiles:
       - values.yaml
