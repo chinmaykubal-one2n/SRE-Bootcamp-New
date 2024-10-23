@@ -86,7 +86,7 @@ studentsApi:
   namespace: student-api
   deployment:
     name: students-api-deployment
-    replicas: 1
+    replicas: 3
     appLabel: students-api
     nodeSelector: application
     initContainer:
