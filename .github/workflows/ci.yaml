@@ -9,6 +9,9 @@ on:
       - milestone-9/**
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 env:
   IMAGE_VERSION: 2.2.0
   MILESTONE_4_DIR: milestone-4
@@ -22,6 +25,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
