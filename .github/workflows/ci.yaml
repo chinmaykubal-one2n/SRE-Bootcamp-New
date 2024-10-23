@@ -66,7 +66,7 @@ jobs:
         run: |
           git config --local user.email "chinmay.kubal@one2n.in"
           git config --local user.name "chinmaykubal-one2n"
-          git add helm-chart/values.yaml
+          git add milestone-9/helm-chart/values.yaml
           git commit -m "Updated image tag to chinmayk12/student-api:${{ env.IMAGE_VERSION }}"
           git push
         # working-directory: ${{ env.MILESTONE_9_DIR }}
