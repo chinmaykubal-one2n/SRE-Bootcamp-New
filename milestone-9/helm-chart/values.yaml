@@ -1,6 +1,6 @@
 vaultToken:
   namespace: student-api
-  token: "aHZzLmhkRDFTc1VEQ3dVeXBvNHhpdVJsSW5ycQ=="
+  token: "aHZzLjF1QUlUYlRTU29GcE5wVnVEZkE0QlZJUw=="
 
 secretStore:
   name: vault-backend-secret-store
@@ -86,7 +86,7 @@ studentsApi:
   namespace: student-api
   deployment:
     name: students-api-deployment
-    replicas: 3
+    replicas: 1
     appLabel: students-api
     nodeSelector: application
     initContainer:
