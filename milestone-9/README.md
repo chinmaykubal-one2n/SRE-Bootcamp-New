@@ -162,7 +162,7 @@ kubectl apply -f argocd/argocd-application.yaml
 ### Step 16: Start the Postman
 Start the postman and import the student-api.postman_collection.json and start reaching the respective endpoints
 
-### Step 17: To remove everything 
+### Step 17: To Remove Everything 
 ```bash
 minikube delete
 ```
