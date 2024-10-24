@@ -1,3 +1,4 @@
+
 ## Milestone:- 9 - Setup one-click deployments using ArgoCD
 ## Prerequisites
 
@@ -132,15 +133,36 @@ Port forward the Student API service to make it accessible:
 ```bash
 kubectl port-forward --address 0.0.0.0 service/students-api-service 3000:3000 -n student-api
 ```
-<!-- write new points for milestone 9 from here onwards... -->
+
+### Step 12: Install ArgoCD
+```bash
+helm repo add argo https://argoproj.github.io/argo-helm
+
+helm install argocd argo/argo-cd --namespace argocd --create-namespace -f argocd/argocd-values.yaml
+
+```
+
+### Step 13: Retrieve ArgoCD Initial Admin Password
+```bash
+kubectl get secret argocd-initial-admin-secret -n argocd -o yaml | grep -i 'password' | awk {'print $2'} | base64 -d
+
+```
+
+### Step 14: Access the ArgoCD Dashboard
+```bash
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+```
 
 
+### Step 15: Apply ArgoCD Application Configuration
+```bash
+kubectl apply -f argocd/argocd-application.yaml
+```
 
-
-### Step 12: Start the Postman
+### Step 16: Start the Postman
 Start the postman and import the student-api.postman_collection.json and start reaching the respective endpoints
 
-### Step 13: To remove everything 
+### Step 17: To remove everything 
 ```bash
 minikube delete
 ```
