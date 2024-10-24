@@ -91,11 +91,11 @@ studentsApi:
     nodeSelector: application
     initContainer:
       name: db-migrations
-      image: chinmayk12/student-api:2.2.0
+      image: chinmayk12/student-api:3.2.0
       command: ["npm", "run", "migrate"]
     container:
       name: students-api
-      image: chinmayk12/student-api:2.2.0
+      image: chinmayk12/student-api:3.2.0
       command: ["npm", "start"]
       port: 3000
   secrets:
