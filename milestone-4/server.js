@@ -1,15 +1,18 @@
 // server.js
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import pkg from 'pg';
 import dotenv from 'dotenv';
+import promClient from 'prom-client';
 
 const app = express();
 const port = 3000;
 const { Client } = pkg;
 dotenv.config();
 
+// PostgreSQL connection
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
 });
@@ -18,16 +21,40 @@ client.connect()
   .then(() => console.log('Connected to the database'))
   .catch(err => console.error('Connection error', err.stack));
 
+// Prometheus metrics setup
+promClient.collectDefaultMetrics();
+
+const httpRequestDurationMicroseconds = new promClient.Histogram({
+  name: 'http_request_duration_ms',
+  help: 'Duration of HTTP requests in ms',
+  labelNames: ['method', 'route', 'status'],
+  buckets: [50, 100, 200, 300, 400, 500],
+});
+
 // Middleware
 app.use(bodyParser.json());
-app.use(morgan('combined'));
+app.use(morgan('combined', {
+  stream: {
+    write: (message) => console.log(JSON.stringify({ message }))
+  }
+}));
+
+// Track request duration
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    httpRequestDurationMicroseconds.labels(req.method, req.route ? req.route.path : req.path, res.statusCode).observe(duration);
+  });
+  next();
+});
 
 // Healthcheck endpoint
 app.get('/api/v1/healthcheck', (req, res) => {
   res.status(200).json({ status: 'OK' });
 });
 
-// Create a new student
+// CRUD operations
 app.post('/api/v1/students', async (req, res) => {
   const { name, age } = req.body;
   try {
@@ -42,7 +69,6 @@ app.post('/api/v1/students', async (req, res) => {
   }
 });
 
-// Get all students
 app.get('/api/v1/students', async (req, res) => {
   try {
     const result = await client.query('SELECT * FROM students');
@@ -53,7 +79,6 @@ app.get('/api/v1/students', async (req, res) => {
   }
 });
 
-// Get a student by ID
 app.get('/api/v1/students/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -68,7 +93,6 @@ app.get('/api/v1/students/:id', async (req, res) => {
   }
 });
 
-// Update an existing student
 app.put('/api/v1/students/:id', async (req, res) => {
   const { id } = req.params;
   const { name, age } = req.body;
@@ -87,7 +111,6 @@ app.put('/api/v1/students/:id', async (req, res) => {
   }
 });
 
-// Delete a student record
 app.delete('/api/v1/students/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -102,8 +125,13 @@ app.delete('/api/v1/students/:id', async (req, res) => {
   }
 });
 
+// Expose metrics endpoint
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', promClient.register.contentType);
+  res.end(await promClient.register.metrics());
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
