@@ -4,26 +4,26 @@
 serviceMonitor:
   enabled: true
   # Define targets for the Blackbox Exporter to probe
-  targets:
-    - name: postgres-service
-      url: http://postgres-service.student-api.svc.cluster.local:5432/
-      module: tcp_connect  # Use TCP for database service port
-      interval: 30s
+  # targets:
+  #   - name: postgres-service
+  #     url: http://postgres-service.student-api.svc.cluster.local:5432/
+  #     module: tcp_connect  # Use TCP for database service port
+  #     interval: 30s
 
-    - name: students-api-service
-      url: http://students-api-service.student-api.svc.cluster.local:3000/
-      module: tcp_connect  # Use HTTP check for API service
-      interval: 30s
+  #   - name: students-api-service
+  #     url: http://students-api-service.student-api.svc.cluster.local:3000/
+  #     module: tcp_connect  # Use HTTP check for API service
+  #     interval: 30s
 
-    - name: vault
-      url: http://vault.vault-ns.svc.cluster.local:8200/v1/sys/health
-      module: http_2xx
-      interval: 30s
+  #   - name: vault
+  #     url: http://vault.vault-ns.svc.cluster.local:8200/v1/sys/health
+  #     module: http_2xx
+  #     interval: 30s
 
-    - name: vault-agent-injector
-      url: http://vault-agent-injector-svc.vault-ns.svc.cluster.local:443/health
-      module: http_2xx
-      interval: 30s
+  #   - name: vault-agent-injector
+  #     url: http://vault-agent-injector-svc.vault-ns.svc.cluster.local:443/health
+  #     module: http_2xx
+  #     interval: 30s
 
 
 
