@@ -23,3 +23,34 @@ helm install postgres-exporter prometheus-community/prometheus-postgres-exporter
 
 # prometheus is already added to grafana just add postgresql exporter to promethsues also
 #  get fresh new values for kube-prometheus-stack and then add
+
+
+DASHBOARDS
+Node Exporter:- 1860
+kube-state-metrics-v2:- 13332
+PostgreSQL Exporter:-  12485
+Prometheus Blackbox Exporter:- 7587
+
+CUTTENTL WORKING:- 
+(lets do loki-stack afterwards, first focus on kube-prometheus-stack and all exporters and prpmethsus and grafana )
+# currently active
+vault kv put secret/postgres-secrets \
+    DATABASE_URL='postgres://postgres:postgres@postgres-service.student-api.svc.cluster.local:5432/postgres?sslmode=disable' \
+    POSTGRES_USER='postgres' \
+    POSTGRES_HOST='postgres-service.student-api.svc.cluster.local' \
+    POSTGRES_PASSWORD='postgres' \
+    POSTGRES_DB='postgres' \
+    PGDATA='/var/lib/postgresql/data'
+
+
+
+kubectl create namespace observability
+helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f ADDONS/kube-exporter-default-manipulated.yaml --namespace observability
+
+# helm install loki-stack grafana/loki-stack -f ../randomlokistack.yaml -n observability
+# node is not settled for now. 
+
+helm install postgres-exporter prometheus-community/prometheus-postgres-exporter -f ADDONS/postexpo.yaml --namespace student-api
+helm install blackbox-exporter prometheus-community/prometheus-blackbox-exporter --namespace observability
+# from the below helm chart disable the unwanted pods (DAMN IMP) (bb exportet is there )
+# helm install prometheus-operator oci://registry-1.docker.io/bitnamicharts/kube-prometheus -n observability

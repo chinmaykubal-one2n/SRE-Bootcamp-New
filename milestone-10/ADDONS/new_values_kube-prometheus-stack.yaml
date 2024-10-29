@@ -1,0 +1,16 @@
+prometheus:
+  additionalServiceMonitors:
+    - name: postgres-exporter
+      additionalLabels: 
+        app: postgres-exporter # Additional labels if required by your environment
+      selector:
+        matchLabels:
+          app: postgres-exporter  # Update this to match your PostgreSQL exporter’s service labels
+      namespaceSelector:
+        matchNames:
+          - student-api  # The namespace where your exporter service is running
+      endpoints:
+        - port: http  # Ensure this matches the port name in the PostgreSQL exporter service
+          interval: 30s
+          path: /metrics
+          scheme: http

@@ -1119,20 +1119,20 @@ grafana:
 # manipulated
   ## Configure additional grafana datasources (passed through tpl)
   ## ref: http://docs.grafana.org/administration/provisioning/#datasources
-  additionalDataSources: 
-  - name: Prometheus-DataSource-Custom-Added
-    access: proxy
-  #   basicAuth: true
-  #   secureJsonData:
-  #       basicAuthPassword: pass
-  #   basicAuthUser: daco
-  #   editable: false
-  #   jsonData:
-  #       tlsSkipVerify: true
-  #   orgId: 1
-    type: prometheus
-    url: http://kube-prometheus-stack-prometheus.observability.svc.cluster.local:9090
-  #   version: 1
+  # additionalDataSources: 
+  # - name: Loki
+  #   access: proxy
+  # #   basicAuth: true
+  # #   secureJsonData:
+  # #       basicAuthPassword: pass
+  # #   basicAuthUser: daco
+  # #   editable: false
+  # #   jsonData:
+  # #       tlsSkipVerify: true
+  # #   orgId: 1
+  #   type: loki
+  #   url: http://loki-stack.observability.svc.cluster.local:3100
+  # #   version: 1
 
   # Flag to mark provisioned data sources for deletion if they are no longer configured.
   # It takes no effect if data sources are already listed in the deleteDatasources section.
@@ -3865,7 +3865,24 @@ prometheus:
     ## The scrape configuration example below will find master nodes, provided they have the name .*mst.*, relabel the
     ## port to 2379 and allow etcd scraping provided it is running on all Kubernetes master nodes
     ##
-    additionalScrapeConfigs: []
+    additionalScrapeConfigs: |
+      - job_name: 'blackbox'
+        metrics_path: /probe
+        params:
+          module: [http_2xx]
+        kubernetes_sd_configs:
+          - role: endpoints
+        relabel_configs:
+          - source_labels: [__meta_kubernetes_endpoint_address_target_name]
+            target_label: __param_target
+          - target_label: __address__
+            replacement: blackbox-exporter.default.svc.cluster.local:9115
+          - source_labels: [__param_target]
+            target_label: instance
+          - source_labels: [__meta_kubernetes_service_name]
+            target_label: service
+          - source_labels: [__meta_kubernetes_namespace]
+            target_label: namespace
     # - job_name: kube-etcd
     #   kubernetes_sd_configs:
     #     - role: node
@@ -4259,24 +4276,24 @@ prometheus:
           ##
           # serverName: ""
 
-    ## MetricRelabelConfigs to apply to samples after scraping, but before ingestion.
-    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
-    ##
-    # metricRelabelings: []
-    # - action: keep
-    #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
-    #   sourceLabels: [__name__]
+  #   ## MetricRelabelConfigs to apply to samples after scraping, but before ingestion.
+  #   ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
+  #   ##
+  #   # metricRelabelings: []
+  #   # - action: keep
+  #   #   regex: 'kube_(daemonset|deployment|pod|namespace|node|statefulset).+'
+  #   #   sourceLabels: [__name__]
 
-    ## RelabelConfigs to apply to samples before scraping
-    ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
-    ##
-    # relabelings: []
-    # - sourceLabels: [__meta_kubernetes_pod_node_name]
-    #   separator: ;
-    #   regex: ^(.*)$
-    #   targetLabel: nodename
-    #   replacement: $1
-    #   action: replace
+  #   ## RelabelConfigs to apply to samples before scraping
+  #   ## ref: https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#relabelconfig
+  #   ##
+  #   # relabelings: []
+  #   # - sourceLabels: [__meta_kubernetes_pod_node_name]
+  #   #   separator: ;
+  #   #   regex: ^(.*)$
+  #   #   targetLabel: nodename
+  #   #   replacement: $1
+  #   #   action: replace
 
   additionalPodMonitors: []
   ## Name of the PodMonitor to create
