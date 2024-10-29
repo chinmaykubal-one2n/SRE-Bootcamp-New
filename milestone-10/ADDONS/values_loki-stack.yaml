@@ -26,8 +26,5 @@ promtail:
     clients:
       - url: http://{{ .Release.Name }}:3100/loki/api/v1/push
 
-
-grafana:
-  enabled: true
  
 # kubectl get secret --namespace observability loki-stack -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
