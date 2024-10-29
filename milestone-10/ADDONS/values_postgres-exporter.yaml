@@ -1,0 +1,12 @@
+# https://artifacthub.io/packages/helm/prometheus-community/prometheus-postgres-exporter
+
+config:
+  datasourceSecret:
+    name: kube-secret-postgres-db
+    key: DATABASE_URL
+
+service:
+  labels:
+    app: postgres-exporter  
+
+    

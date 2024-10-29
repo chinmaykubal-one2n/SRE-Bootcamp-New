@@ -28,7 +28,7 @@ helm install postgres-exporter prometheus-community/prometheus-postgres-exporter
 DASHBOARDS
 Node Exporter:- 1860
 kube-state-metrics-v2:- 13332
-PostgreSQL Exporter:-  12485
+PostgreSQL Exporter:-  14114
 Prometheus Blackbox Exporter:- 7587
 
 CUTTENTL WORKING:- 
@@ -46,11 +46,9 @@ vault kv put secret/postgres-secrets \
 
 kubectl create namespace observability
 helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f ADDONS/new_values_kube-prometheus-stack.yaml --namespace observability
-
-# helm install loki-stack grafana/loki-stack -f ../randomlokistack.yaml -n observability
-# node is not settled for now. 
-
 helm install postgres-exporter prometheus-community/prometheus-postgres-exporter -f ADDONS/postexpo.yaml --namespace student-api
 helm install blackbox-exporter prometheus-community/prometheus-blackbox-exporter --namespace observability
 # from the below helm chart disable the unwanted pods (DAMN IMP) (bb exportet is there )
 # helm install prometheus-operator oci://registry-1.docker.io/bitnamicharts/kube-prometheus -n observability
+# helm install loki-stack grafana/loki-stack -f ../randomlokistack.yaml -n observability
+# node is not settled for now. 

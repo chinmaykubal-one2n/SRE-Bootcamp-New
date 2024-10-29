@@ -1,4 +1,0 @@
-config:
-  datasourceSecret:
-    name: kube-secret-postgres-db
-    key: DATABASE_URL

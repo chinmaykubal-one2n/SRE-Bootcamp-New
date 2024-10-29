@@ -1,0 +1,15 @@
+# https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack
+prometheus:
+  additionalServiceMonitors:
+    - name: postgres-exporter
+      selector:
+        matchLabels:
+          app: postgres-exporter   
+      namespaceSelector:
+        matchNames:
+          - student-api   
+      endpoints:
+        - port: http  
+          interval: 30s
+          path: /metrics
+          scheme: http
