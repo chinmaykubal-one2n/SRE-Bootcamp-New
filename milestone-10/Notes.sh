@@ -45,7 +45,7 @@ vault kv put secret/postgres-secrets \
 
 
 kubectl create namespace observability
-helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f ADDONS/kube-exporter-default-manipulated.yaml --namespace observability
+helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f ADDONS/new_values_kube-prometheus-stack.yaml --namespace observability
 
 # helm install loki-stack grafana/loki-stack -f ../randomlokistack.yaml -n observability
 # node is not settled for now. 
