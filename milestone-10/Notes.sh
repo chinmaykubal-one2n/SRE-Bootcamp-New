@@ -48,6 +48,7 @@ vault kv put secret/postgres-secrets \
 kubectl create namespace observability
 helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f ADDONS/values_kube-prometheus-stack.yaml --namespace observability
 helm install postgres-exporter prometheus-community/prometheus-postgres-exporter -f ADDONS/values_postgres-exporter.yaml --namespace student-api
+
 helm install blackbox-exporter prometheus-community/prometheus-blackbox-exporter --namespace observability
 # from the below helm chart disable the unwanted pods (DAMN IMP) (bb exportet is there )
 # helm install prometheus-operator oci://registry-1.docker.io/bitnamicharts/kube-prometheus -n observability

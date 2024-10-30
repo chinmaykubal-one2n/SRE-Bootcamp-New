@@ -1,30 +1,8 @@
 
 loki:
-  enabled: true
   isDefault: false
-  url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
-  readinessProbe:
-    httpGet:
-      path: /ready
-      port: http-metrics
-    initialDelaySeconds: 45
-  livenessProbe:
-    httpGet:
-      path: /ready
-      port: http-metrics
-    initialDelaySeconds: 45
-  datasource:
-    jsonData: "{}"
-    uid: ""
-
-
-promtail:
-  enabled: false
-  config:
-    logLevel: info
-    serverPort: 3101
-    clients:
-      - url: http://{{ .Release.Name }}:3100/loki/api/v1/push
 
  
+ 
+
 # kubectl get secret --namespace observability loki-stack -o jsonpath="{.data.admin-password}" | base64 --decode ; echo

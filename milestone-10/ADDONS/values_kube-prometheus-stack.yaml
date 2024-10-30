@@ -14,22 +14,18 @@ prometheus:
           path: /metrics
           scheme: http
 
-grafana:
-  additionalDataSources:
-    - name: Loki
-      type: loki
-      access: proxy
-      url: http://loki-stack.observability.svc.cluster.local:3100
-      isDefault: false
-      basicAuth: false
-      jsonData:
-        tlsSkipVerify: true
-      # secureJsonData:
-      #   basicAuthPassword: U7eQMwrXNHrlR4i43NuBfMhSJluSxgGe8Feo2nRp
-      # basicAuthUser: admin
-      orgId: 1
-      version: 1
-      editable: true
-
-
+# grafana:
+#   ingress:
+#     enabled: true
+#     hosts:
+#       - grafana.minikube
+#   persistence:
+#   enabled: true
+#   storageClassName: "standard"
+#   size: 1Gi
  
+
+
+#  http://loki-stack.observability.svc.cluster.local:3100/metrics
+# http://loki-stack:3100 also working withou any config lets use this.
+# solution worked:- https://github.com/grafana/loki/issues/3346
