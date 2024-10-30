@@ -13,6 +13,17 @@ prometheus:
           interval: 30s
           path: /metrics
           scheme: http
+    - name: blackbox-exporter
+      selector:
+        matchLabels:
+          app: blackbox-exporter
+      namespaceSelector:
+        matchNames:
+          - observability
+      endpoints:
+        - port: http
+          interval: 30s
+          path: /metrics
 
 #  http://loki-stack.observability.svc.cluster.local:3100/metrics
 # http://loki-stack:3100 also working withou any config lets use this.

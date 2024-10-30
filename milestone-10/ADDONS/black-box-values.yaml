@@ -1,38 +1,12 @@
-# https://artifacthub.io/packages/helm/prometheus-community/prometheus-blackbox-exporter
-  
-# Enable ServiceMonitor for Blackbox Exporter
+service:
+  labels:
+    app: blackbox-exporter
+
 serviceMonitor:
   enabled: true
-  # Define targets for the Blackbox Exporter to probe
-  # targets:
-  #   - name: postgres-service
-  #     url: http://postgres-service.student-api.svc.cluster.local:5432/
-  #     module: tcp_connect  # Use TCP for database service port
-  #     interval: 30s
-
-  #   - name: students-api-service
-  #     url: http://students-api-service.student-api.svc.cluster.local:3000/
-  #     module: tcp_connect  # Use HTTP check for API service
-  #     interval: 30s
-
-  #   - name: vault
-  #     url: http://vault.vault-ns.svc.cluster.local:8200/v1/sys/health
-  #     module: http_2xx
-  #     interval: 30s
-
-  #   - name: vault-agent-injector
-  #     url: http://vault-agent-injector-svc.vault-ns.svc.cluster.local:443/health
-  #     module: http_2xx
-  #     interval: 30s
-
-
-
-config:
-  modules:
-    http_2xx:
-      prober: http
-      timeout: 5s
-      http:
-        valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
-        follow_redirects: true
-        preferred_ip_protocol: "ip4"
+  targets:
+    - name: postgres-service
+      url: postgres://postgres:postgres@postgres-service.student-api.svc.cluster.local:5432/postgres?sslmode=disable
+      interval: 60s
+      module: http_2xx
+      scrapeTimeout: 60s

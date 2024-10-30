@@ -78,3 +78,6 @@ sudo sysctl -p
 
 sysctl fs.inotify.max_user_instances
 sysctl fs.inotify.max_user_watches
+
+
+helm install blackbox-exporter prometheus-community/prometheus-blackbox-exporter --namespace observability -f ADDONS/black-box-values.yaml
