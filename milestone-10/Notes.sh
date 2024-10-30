@@ -30,6 +30,7 @@ Node Exporter:- 1860
 kube-state-metrics-v2:- 13332
 PostgreSQL Exporter:-  14114
 # Prometheus Blackbox Exporter:- 7587
+# loki :- 15141
 
 CUTTENTL WORKING:- 
 (lets do loki-stack afterwards, first focus on kube-prometheus-stack and all exporters and prpmethsus and grafana )
@@ -46,7 +47,7 @@ vault kv put secret/postgres-secrets \
 
 kubectl create namespace observability
 helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f ADDONS/values_kube-prometheus-stack.yaml --namespace observability
-helm install postgres-exporter prometheus-community/prometheus-postgres-exporter -f ADDONS/postexpo.yaml --namespace student-api
+helm install postgres-exporter prometheus-community/prometheus-postgres-exporter -f ADDONS/values_postgres-exporter.yaml --namespace student-api
 helm install blackbox-exporter prometheus-community/prometheus-blackbox-exporter --namespace observability
 # from the below helm chart disable the unwanted pods (DAMN IMP) (bb exportet is there )
 # helm install prometheus-operator oci://registry-1.docker.io/bitnamicharts/kube-prometheus -n observability
