@@ -32,7 +32,7 @@ PostgreSQL Exporter:-  14114
 # Prometheus Blackbox Exporter:- 7587
 # loki :- 15141
 
-CUTTENTL WORKING:- 
+
 (lets do loki-stack afterwards, first focus on kube-prometheus-stack and all exporters and prpmethsus and grafana )
 # currently active
 vault kv put secret/postgres-secrets \
@@ -42,8 +42,6 @@ vault kv put secret/postgres-secrets \
     POSTGRES_PASSWORD='postgres' \
     POSTGRES_DB='postgres' \
     PGDATA='/var/lib/postgresql/data'
-
-
 
 kubectl create namespace observability
 helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f ADDONS/values_kube-prometheus-stack.yaml --namespace observability
@@ -59,9 +57,24 @@ helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 
 
+
+CUTTENTL WORKING:- (setup nodeaffinity afterwards)
+vault kv put secret/postgres-secrets \
+    DATABASE_URL='postgres://postgres:postgres@postgres-service.student-api.svc.cluster.local:5432/postgres?sslmode=disable' \
+    POSTGRES_USER='postgres' \
+    POSTGRES_HOST='postgres-service.student-api.svc.cluster.local' \
+    POSTGRES_PASSWORD='postgres' \
+    POSTGRES_DB='postgres' \
+    PGDATA='/var/lib/postgresql/data'
 kubectl create namespace observability
-helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f ADDONS/values_kube-prometheus-stack.yaml --namespace observability
 helm install postgres-exporter prometheus-community/prometheus-postgres-exporter -f ADDONS/values_postgres-exporter.yaml --namespace student-api
 helm install loki-stack grafana/loki-stack --namespace observability -f ADDONS/values_loki-stack.yaml
+helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f ADDONS/values_kube-prometheus-stack.yaml --namespace observability
 
+sudo sh -c 'echo "fs.inotify.max_user_instances=8192" >> /etc/sysctl.conf'
+sudo sh -c 'echo "fs.inotify.max_user_watches=524288" >> /etc/sysctl.conf'
 
+sudo sysctl -p
+
+sysctl fs.inotify.max_user_instances
+sysctl fs.inotify.max_user_watches

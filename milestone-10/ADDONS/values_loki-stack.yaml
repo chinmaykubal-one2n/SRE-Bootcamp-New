@@ -5,4 +5,3 @@ loki:
  
  
 
-# kubectl get secret --namespace observability loki-stack -o jsonpath="{.data.admin-password}" | base64 --decode ; echo

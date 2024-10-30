@@ -1,6 +1,6 @@
 vaultToken:
   namespace: student-api
-  token: "aHZzLllIZXVhaE5YS3M1Q0hKVFJXSTdmSkhQRw=="
+  token: "aHZzLkN3ankyOEVEczNPR3ZaWXNjVkFZQzR3MQ=="
 
 secretStore:
   name: vault-backend-secret-store
