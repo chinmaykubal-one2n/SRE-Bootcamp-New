@@ -57,6 +57,11 @@ helm install blackbox-exporter prometheus-community/prometheus-blackbox-exporter
 
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
+
+
+kubectl create namespace observability
+helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack -f ADDONS/values_kube-prometheus-stack.yaml --namespace observability
+helm install postgres-exporter prometheus-community/prometheus-postgres-exporter -f ADDONS/values_postgres-exporter.yaml --namespace student-api
 helm install loki-stack grafana/loki-stack --namespace observability -f ADDONS/values_loki-stack.yaml
 
 
