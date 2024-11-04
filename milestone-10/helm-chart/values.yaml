@@ -1,6 +1,6 @@
 vaultToken:
   namespace: student-api
-  token: "aHZzLkN3ankyOEVEczNPR3ZaWXNjVkFZQzR3MQ=="
+  token: "aHZzLlI1bHlCWFZKZzluMEk0WHd4dDNnNEpQUQ=="
 
 secretStore:
   name: vault-backend-secret-store
@@ -17,7 +17,7 @@ secretStore:
 externalSecret:
   name: external-secret-postgres
   namespace: student-api
-  refreshInterval: "15s"
+  refreshInterval: "1h"
   secretStoreRef:
     name: vault-backend-secret-store
     kind: SecretStore
