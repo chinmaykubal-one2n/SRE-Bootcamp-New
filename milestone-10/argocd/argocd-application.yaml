@@ -7,8 +7,8 @@ spec:
   source:
     repoURL: 'https://github.com/chinmaykubal-one2n/SRE-Bootcamp-New'
     # need to change the repoURL after the merge
-    targetRevision: main
-    path: milestone-9/helm-chart
+    targetRevision: milestone-10-new
+    path: milestone-10/helm-chart
     helm:
       valueFiles:
       - values.yaml

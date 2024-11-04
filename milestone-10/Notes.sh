@@ -80,4 +80,5 @@ sysctl fs.inotify.max_user_instances
 sysctl fs.inotify.max_user_watches
 
 
+ARGOCD-APPLICATOIN FILE NEEDS TO BE CHANGED AFTER THE MERGE FORM NOW POINTING THE MILESTONE-10-NEW CHANGE IT TO MAIN AFTERWARDS
 helm install blackbox-exporter prometheus-community/prometheus-blackbox-exporter --namespace observability -f ADDONS/black-box-values.yaml
