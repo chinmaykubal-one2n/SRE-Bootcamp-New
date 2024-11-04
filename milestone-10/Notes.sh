@@ -26,11 +26,12 @@ helm install postgres-exporter prometheus-community/prometheus-postgres-exporter
 
 
 DASHBOARDS
-Node Exporter:- 1860
+FULL Node Exporter:- 1860
 kube-state-metrics-v2:- 13332
-PostgreSQL Exporter:-  14114
+PostgreSQL Exporter:-  14114, 13576
 # Prometheus Blackbox Exporter:- 7587
 # loki :- 15141
+12485
 
 
 (lets do loki-stack afterwards, first focus on kube-prometheus-stack and all exporters and prpmethsus and grafana )

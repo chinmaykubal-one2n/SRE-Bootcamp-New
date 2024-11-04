@@ -2,6 +2,7 @@ vaultToken:
   namespace: student-api
   token: "aHZzLnYxbkpMVjEwYTNTT2V1bVV4eW5QM0loVA=="
 
+
 secretStore:
   name: vault-backend-secret-store
   namespace: student-api
