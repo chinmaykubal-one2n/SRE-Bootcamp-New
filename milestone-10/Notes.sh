@@ -83,3 +83,7 @@ sysctl fs.inotify.max_user_watches
 
 ARGOCD-APPLICATOIN FILE NEEDS TO BE CHANGED AFTER THE MERGE FORM NOW POINTING THE MILESTONE-10-NEW CHANGE IT TO MAIN AFTERWARDS
 helm install blackbox-exporter prometheus-community/prometheus-blackbox-exporter --namespace observability -f ADDONS/black-box-values.yaml
+
+
+(time() - process_start_time_seconds{job="postgres-exporter-prometheus-postgres-exporter", namespace="student-api"}) / 3600 hours
+(time() - process_start_time_seconds{job="postgres-exporter-prometheus-postgres-exporter", namespace="student-api"}) / 86400 days
