@@ -23,6 +23,34 @@
   "links": [],
   "panels": [
     {
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 17,
+      "libraryPanel": {
+        "name": "PostgreSQL Version",
+        "uid": "de2xjs2a2756oa"
+      },
+      "title": "PostgreSQL Version"
+    },
+    {
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 12,
+      "libraryPanel": {
+        "name": "Number Of Nodes",
+        "uid": "de2wyx57fbshsa"
+      },
+      "title": "Number Of Nodes"
+    },
+    {
       "datasource": {
         "default": true,
         "type": "prometheus",
@@ -56,7 +84,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 0
+        "y": 8
       },
       "id": 15,
       "options": {
@@ -90,7 +118,7 @@
           "refId": "A"
         }
       ],
-      "title": "PostgreSQL Uptime In hours",
+      "title": "PostgreSQL Uptime Custom",
       "type": "gauge"
     },
     {
@@ -98,14 +126,14 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 0
+        "y": 8
       },
-      "id": 12,
+      "id": 6,
       "libraryPanel": {
-        "name": "Number Of Nodes",
-        "uid": "de2wyx57fbshsa"
+        "name": "Disk Space Usage",
+        "uid": "fe2wxr3lfbb40f"
       },
-      "title": "Number Of Nodes"
+      "title": "Disk Space Usage"
     },
     {
       "datasource": {
@@ -116,7 +144,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 8
+        "y": 16
       },
       "id": 14,
       "options": {
@@ -149,20 +177,6 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 8
-      },
-      "id": 6,
-      "libraryPanel": {
-        "name": "Disk Space Usage",
-        "uid": "fe2wxr3lfbb40f"
-      },
-      "title": "Disk Space Usage"
-    },
-    {
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
         "y": 16
       },
       "id": 4,
@@ -187,6 +201,7 @@
       "title": "CPU Usage"
     }
   ],
+  "refresh": "",
   "schemaVersion": 39,
   "tags": [],
   "templating": {
@@ -241,7 +256,7 @@
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "192.168.49.3:9100",
           "value": "192.168.49.3:9100"
         },
@@ -270,13 +285,13 @@
     ]
   },
   "time": {
-    "from": "now-6h",
-    "to": "now"
+    "from": "2024-11-05T01:57:39.374Z",
+    "to": "2024-11-05T05:38:22.232Z"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Custom Dashboard",
   "uid": "ce2wkxawhje9sb",
-  "version": 20,
+  "version": 21,
   "weekStart": ""
 }
