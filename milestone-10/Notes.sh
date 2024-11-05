@@ -87,3 +87,11 @@ helm install blackbox-exporter prometheus-community/prometheus-blackbox-exporter
 
 (time() - process_start_time_seconds{job="postgres-exporter-prometheus-postgres-exporter", namespace="student-api"}) / 3600 hours
 (time() - process_start_time_seconds{job="postgres-exporter-prometheus-postgres-exporter", namespace="student-api"}) / 86400 days
+
+
+loki (not test command for alerts) 
+count_over_time({namespace="student-api", service="students-api-service"} |= "error" [10s]) > 0
+count_over_time({namespace="student-api", service="students-api-service", method="GET"}[5s]) > 5
+
+
+Bot User OAuth Token:- xoxb-8005376490864-7995315751009-lgC50kpGoTQ15mHj7lYQYJvh
