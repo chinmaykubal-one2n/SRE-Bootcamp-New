@@ -90,8 +90,16 @@ helm install blackbox-exporter prometheus-community/prometheus-blackbox-exporter
 
 
 loki (not test command for alerts) 
-count_over_time({namespace="student-api", service="students-api-service"} |= "error" [10s]) > 0
-count_over_time({namespace="student-api", service="students-api-service", method="GET"}[5s]) > 5
+count_over_time({app="students-api"} |= `200` [1m])
+count_over_time({app="students-api"} |= `404` [1m])
+100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) > 50
+100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 20
+100 * (node_filesystem_size_bytes{mountpoint="/"} - node_filesystem_free_bytes{mountpoint="/"}) / node_filesystem_size_bytes{mountpoint="/"} > 5
 
 
-Bot User OAuth Token:- xoxb-8005376490864-7995315751009-lgC50kpGoTQ15mHj7lYQYJvh
+
+
+Bot User OAuth Token:-  
+while working with grafana getting this error :- NetworkError when attempting to fetch resource.
+but pods are running fine.
+logs are also okay.
