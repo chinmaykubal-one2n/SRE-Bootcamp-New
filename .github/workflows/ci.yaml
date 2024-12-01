@@ -20,7 +20,7 @@ env:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: [self-hosted, main_runner]
     # runs-on: ubuntu-latest
 
     steps:
