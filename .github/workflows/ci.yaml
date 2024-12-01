@@ -14,7 +14,7 @@ permissions:
   contents: write
 
 env:
-  IMAGE_VERSION: 4.2.0
+  IMAGE_VERSION: 4.2.1
   MILESTONE_4_DIR: milestone-4
   MILESTONE_9_DIR: milestone-9
 
